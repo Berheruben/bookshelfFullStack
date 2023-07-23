@@ -133,11 +133,11 @@ export const addPlotToBook = async (req: Request, res: Response) => {
 };
 
 export const takeBook = async (req: Request, res: Response) => {
-  // Chiamiamo la funzione del loanController per prendere un libro in prestito
+  // Chiama la funzione del loanController per prendere un libro in prestito
   return await takeBookLoan(req, res);
 };
 
 export const returnBook = async (req: Request, res: Response) => {
-  // Chiamiamo la funzione del loanController per restituire un libro
+  // Chiama la funzione del loanController per restituire un libro
   return await returnBookLoan(req, res);
 };
