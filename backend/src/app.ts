@@ -20,7 +20,7 @@ app.use(express.urlencoded({extended:true}));
 app.use('/api', bookRouter);
 app.use('/api', userRouter);
 app.use('/api', loanRouter);
-const PORT = 3000;
+const PORT = 3001;
 
 // Effettua la connessione al database e crea le tabelle
 
