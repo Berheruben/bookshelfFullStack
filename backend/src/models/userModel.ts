@@ -3,7 +3,7 @@ import db from '../db/db';
 import Book from './bookModel';
 import Loan from './loanModel';
 class User extends Model {
-  public id!: number;
+  declare id: number;
   public firstName!: string;
   public lastName!: string;
   public email!: string;

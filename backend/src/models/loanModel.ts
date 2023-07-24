@@ -4,7 +4,7 @@ import Book from './bookModel';
 import User from './userModel';
 
 class Loan extends Model {
-  public id!: number;
+  declare id: number;
   public bookId!: number;
   public userId!: number;
 

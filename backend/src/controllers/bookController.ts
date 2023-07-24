@@ -4,7 +4,7 @@ import Book from '../models/bookModel';
 import { Op } from 'sequelize';
 import User from '../models/userModel';
 import Loan from '..//models/loanModel';
-import { takeBook as takeBookLoan, returnBook as returnBookLoan } from '../controllers/loanController'; // Import le funzioni rinominandole
+import { takeBook as takeBookLoan, returnBook as returnBookLoan } from '../controllers/loanController';
 
 export const getAllBooks = async (_req: Request, res: Response) => {
   try {
@@ -100,7 +100,7 @@ export const markBookAsRead = async (req: Request, res: Response) => {
     if (!book) {
       res.status(404).json({ error: 'Book not found' });
     } else {
-      await book.increment('numReads'); // Incrementa il numero di letture del libro
+      await book.increment('numReads'); // Increment the number of read of the book
       res.json({ message: 'Book marked as read successfully' });
     }
   } catch (error) {
@@ -133,11 +133,12 @@ export const addPlotToBook = async (req: Request, res: Response) => {
 };
 
 export const takeBook = async (req: Request, res: Response) => {
-  // Chiama la funzione del loanController per prendere un libro in prestito
+  // Call the loanController function to borrow a book
+   
   return await takeBookLoan(req, res);
 };
 
 export const returnBook = async (req: Request, res: Response) => {
-  // Chiama la funzione del loanController per restituire un libro
+  // call the loanController function to return a book
   return await returnBookLoan(req, res);
 };

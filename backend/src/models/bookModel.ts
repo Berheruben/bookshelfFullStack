@@ -3,7 +3,7 @@ import db from '../db/db';
 import User from './userModel';
 import Loan from './loanModel';
 class Book extends Model {
-  public id!: number;
+  declare id: number;
   public title!: string;
   public author!: string;
   public isbn!: string;
@@ -43,6 +43,11 @@ Book.init(
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       defaultValue: 0,
+    },
+    addedDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW, 
     },
   },
   {
