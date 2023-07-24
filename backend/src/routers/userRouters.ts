@@ -11,7 +11,7 @@ router.get('/users', userController.getAllUsers);
 router.get('/users/:id', userController.getUserById);
 
 // Aggiungi un nuovo utente
-router.post('/users', userController.addUser);
+router.post('/adduser', userController.addUser);
 
 // Modifica un utente
 router.put('/users/:id', userController.updateUser);

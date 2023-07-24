@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '../db/db';
 import User from './userModel';
-import Loan from './loanModel';
+
 class Book extends Model {
   declare id: number;
   public title!: string;

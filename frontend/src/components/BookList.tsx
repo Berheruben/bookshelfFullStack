@@ -1,7 +1,7 @@
 // src/components/BookList.tsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface Book {
   id: number;
@@ -14,14 +14,15 @@ interface Book {
 
 const BookList: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
-
+  const location = useLocation();
+  const userId = new URLSearchParams(location.search).get('userId');
   useEffect(() => {
-    // Effettua una richiesta GET al backend per ottenere i libri dell'utente loggato
-    axios.get<Book[]>('http://localhost:3000/api/books').then((response) => {
-        if(!response.data) console.log("NON CI SONO LIBRI");
-      setBooks(response.data);
-    });
-  }, []);
+    if (userId) {
+      axios.get(`http://localhost:3001/book/books/user/${userId}`).then((response) => {
+        setBooks(response.data);
+      });
+    }
+  }, [userId]);
 
   return (
    
