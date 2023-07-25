@@ -1,9 +1,6 @@
 // controllers/book.controller.ts
 import { Request, Response } from 'express';
 import Book from '../models/bookModel';
-import { Op } from 'sequelize';
-//import { takeBook as takeBookLoan, returnBook as returnBookLoan } from '../controllers/loanController';
-
 import User from '../models/userModel';
 
 export const getAllBooks = async (req: Request, res: Response) => {
@@ -75,7 +72,6 @@ export const addBook = async (req: Request, res: Response) => {
   }
 };
 
-
 export const getBookById = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -103,8 +99,6 @@ export const getBooksByUser = async (req: Request, res: Response) => {
   }
 };
 
-
-// CRUD: Update - Modifica un libro
 export const updateBook = async (req: Request, res: Response) => {
   const bookId = req.params.id;
   const { title, author, isbn, plot } = req.body;
@@ -144,6 +138,7 @@ export const deleteBook = async (req: Request, res: Response) => {
     res.status(400).json({ error: 'Error deleting the book', details: error.message });
   }
 };
+
 export const markBookAsRead = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -158,6 +153,7 @@ export const markBookAsRead = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Error marking the book as read', details: error.message });
   }
 };
+
 export const getBooksByAuthor = async (req: Request, res: Response) => {
   const { author } = req.params;
   try {
@@ -167,6 +163,7 @@ export const getBooksByAuthor = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Error retrieving books by author', details: error.message });
   }
 };
+
 export const addPlotToBook = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { plot } = req.body;
@@ -182,11 +179,11 @@ export const addPlotToBook = async (req: Request, res: Response) => {
     res.status(400).json({ error: 'Error adding plot to the book', details: error.message });
   }
 };
-// Aggiungi un libro all'utente
+
 export const takeBook = async (req: Request, res: Response) => {
   try {
     const bookId = req.params.id;
-    const userId = req.body.userId; // Assumendo che l'ID dell'utente sia passato come parametro nel corpo della richiesta
+    const userId = req.body.userId; 
 
     // Controlla se l'utente esiste
     const user = await User.findByPk(userId);
@@ -199,17 +196,15 @@ export const takeBook = async (req: Request, res: Response) => {
     if (!book) {
       return res.status(404).json({ error: 'Book not found' });
     }
-
-    // Associa il libro all'utente impostando il campo userId nella tabella Book
+   
     await book.update({ userId });
-
     res.json({ message: 'Book taken successfully', book });
   } catch (error) {
     res.status(500).json({ error: 'Error taking the book', details: error.message });
   }
 };
 
-// Restituisci un libro
+
 export const returnBook = async (req: Request, res: Response) => {
   try {
     const bookId = req.params.id;
@@ -220,7 +215,6 @@ export const returnBook = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Book not found' });
     }
 
-    // Rimuovi l'associazione del libro dall'utente impostando il campo userId nella tabella Book a null
     await book.update({ userId: null });
 
     res.json({ message: 'Book returned successfully', book });
