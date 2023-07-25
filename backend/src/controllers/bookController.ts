@@ -1,8 +1,9 @@
-// controllers/book.controller.ts
+
 import { Request, Response } from 'express';
 import Book from '../models/bookModel';
 import User from '../models/userModel';
 
+// Get all books
 export const getAllBooks = async (req: Request, res: Response) => {
   try {
     const books = await Book.findAll();
@@ -12,47 +13,49 @@ export const getAllBooks = async (req: Request, res: Response) => {
   }
 };
 
+// Helper function to validate ISBN format
 const isValidISBN = (isbn: string): boolean => {
-  // Verifica se l'ISBN inizia con i prefissi 978 o 979
+  // Check if ISBN starts with prefixes '978' or '979'
   if (!isbn.startsWith('978') && !isbn.startsWith('979')) {
     return false;
   }
 
-  // Verifica se l'ISBN ha una lunghezza di 13 cifre
+  // Check if ISBN has a length of 13 digits
   if (isbn.length !== 13) {
     return false;
   }
 
-  // Verifica se l'ISBN contiene solo cifre numeriche
+  // Check if ISBN contains only numeric digits
   if (!/^\d+$/.test(isbn)) {
     return false;
   }
 
-  // Verifica il prefisso dell'area linguistica (88 o 12)
+  // Check the language area prefix (88 or 12)
   const areaLinguisticaPrefix = isbn.substring(3, 5);
   if (areaLinguisticaPrefix !== '88' && areaLinguisticaPrefix !== '12') {
     return false;
   }
 
-  // Verifica il prefisso editore (da 2 a 6 cifre)
+  // Check the publisher prefix (2 to 6 digits)
   const editorePrefix = isbn.substring(5, 11);
   if (editorePrefix.length < 2 || editorePrefix.length > 6) {
     return false;
   }
 
-  // La quinta parte dell'ISBN è il numero di controllo (0-9)
+  // The fifth part of the ISBN is the control number (0-9)
   const controlNumber = isbn.charAt(12);
   if (!/^\d$/.test(controlNumber)) {
     return false;
   }
 
-  // L'ISBN è valido
+  // The ISBN is valid
   return true;
 };
 
+// Add a new book
 export const addBook = async (req: Request, res: Response) => {
   const { title, author, isbn, plot } = req.body;
-  const addedDate = new Date()
+  const addedDate = new Date();
   try {
     if (!title || !author || !isbn) {
       return res.status(400).json({ error: 'Title, author, and ISBN are required fields' });
@@ -64,7 +67,7 @@ export const addBook = async (req: Request, res: Response) => {
     if (existingBook) {
       return res.status(409).json({ error: 'Book with the same ISBN already exists' });
     }
-    
+
     const book = await Book.create({ title, author, isbn, plot, addedDate });
     res.json({ message: 'Book created successfully', book });
   } catch (error) {
@@ -72,11 +75,14 @@ export const addBook = async (req: Request, res: Response) => {
   }
 };
 
+// Get a book by its ID
 export const getBookById = async (req: Request, res: Response) => {
   const { id } = req.params;
+  console.log(id, typeof id);
   try {
     const book = await Book.findByPk(id);
     if (!book) {
+      console.log(book, typeof book);
       res.status(404).json({ error: 'Book not found' });
     } else {
       res.json(book);
@@ -85,6 +91,8 @@ export const getBookById = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Error retrieving the book', details: error.message });
   }
 };
+
+// Get books by user ID
 export const getBooksByUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
@@ -99,6 +107,7 @@ export const getBooksByUser = async (req: Request, res: Response) => {
   }
 };
 
+// Update a book
 export const updateBook = async (req: Request, res: Response) => {
   const bookId = req.params.id;
   const { title, author, isbn, plot } = req.body;
@@ -122,6 +131,7 @@ export const updateBook = async (req: Request, res: Response) => {
   }
 };
 
+// Delete a book
 export const deleteBook = async (req: Request, res: Response) => {
   const bookId = req.params.id;
 
@@ -139,6 +149,7 @@ export const deleteBook = async (req: Request, res: Response) => {
   }
 };
 
+// Mark a book as read
 export const markBookAsRead = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -146,7 +157,7 @@ export const markBookAsRead = async (req: Request, res: Response) => {
     if (!book) {
       res.status(404).json({ error: 'Book not found' });
     } else {
-      await book.increment('numReads'); // Increment the number of read of the book
+      await book.increment('numReads'); // Increment the number of reads of the book
       res.json({ message: 'Book marked as read successfully' });
     }
   } catch (error) {
@@ -154,6 +165,7 @@ export const markBookAsRead = async (req: Request, res: Response) => {
   }
 };
 
+// Get books by author name
 export const getBooksByAuthor = async (req: Request, res: Response) => {
   const { author } = req.params;
   try {
@@ -164,6 +176,7 @@ export const getBooksByAuthor = async (req: Request, res: Response) => {
   }
 };
 
+// Add a plot to a book
 export const addPlotToBook = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { plot } = req.body;
@@ -180,23 +193,24 @@ export const addPlotToBook = async (req: Request, res: Response) => {
   }
 };
 
+// Take a book (assign it to a user)
 export const takeBook = async (req: Request, res: Response) => {
   try {
     const bookId = req.params.id;
-    const userId = req.body.userId; 
+    const userId = req.body.userId;
 
-    // Controlla se l'utente esiste
+    // Check if the user exists
     const user = await User.findByPk(userId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Controlla se il libro esiste
+    // Check if the book exists
     const book = await Book.findByPk(bookId);
     if (!book) {
       return res.status(404).json({ error: 'Book not found' });
     }
-   
+
     await book.update({ userId });
     res.json({ message: 'Book taken successfully', book });
   } catch (error) {
@@ -204,12 +218,12 @@ export const takeBook = async (req: Request, res: Response) => {
   }
 };
 
-
+// Return a book (remove the assigned user)
 export const returnBook = async (req: Request, res: Response) => {
   try {
     const bookId = req.params.id;
 
-    // Controlla se il libro esiste
+    // Check if the book exists
     const book = await Book.findByPk(bookId);
     if (!book) {
       return res.status(404).json({ error: 'Book not found' });

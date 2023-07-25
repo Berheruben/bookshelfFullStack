@@ -1,8 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import sequelize from './db/db'; 
-import Book from './models/bookModel'; 
+import sequelize from './db/db';
+import Book from './models/bookModel';
 import User from './models/userModel';
 
 import bookRouter from './routers/bookRouters';
@@ -20,10 +20,8 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Import routers and use them with proper prefixes
-
 app.use('/book', bookRouter);
 app.use('/user', userRouter);
-
 
 const PORT = process.env.PORT || 3000;
 
@@ -33,12 +31,10 @@ async function connectToDatabase() {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
 
-    // Un utente può avere molti libri associati (uno a molti)
+    // An user can have many associated books (one-to-many)
     User.hasMany(Book, { foreignKey: 'userId' });
     Book.belongsTo(User, { foreignKey: 'userId' });
-    
-   
-   
+
     await sequelize.sync(); // Synchronize models with the database
 
     // Start the server after the database connection is established and tables are created
