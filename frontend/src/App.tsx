@@ -1,24 +1,24 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 import Login from './components/Login';
-import BooksList from './components/BookList';
+import BookList from './components/BookList';
 import BookDetails from './components/BookDetails';
-import NotFound from './components/NotFound'; // Importa il componente NotFound
+import NotFound from './components/NotFound'; 
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes> 
-        {/* Rotta per il login */}
+        {/* Route for login */}
         <Route path="/" element={<Login />} />
 
-        {/* Rotta per l'elenco dei libri */}
-        <Route path="/books/:userId" element={<BooksList />} />
+        {/* Route for the list of books */}
+        <Route path="/books/:userId" element={<BookList />} />
 
-        {/* Rotta per la pagina di dettaglio del libro */}
+        {/* Route for the book details page */}
         <Route path="/books/:userId/:bookId" element={<BookDetails />} />
 
-        {/* Rotte di fallback per gestire gli URL sconosciuti */}
+        {/* Fallback routes to handle unknown URLs */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

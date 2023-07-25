@@ -1,4 +1,3 @@
-// src/components/BookDetail.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -13,22 +12,22 @@ interface Book {
 }
 
 const BookDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { bookId } = useParams<{ bookId: string }>();
   const [book, setBook] = useState<Book | null>(null);
 
   useEffect(() => {
-    // GET Methon to the backend to get book details
-    axios.get<Book>(`http://localhost:3004/book/books/${id}`).then((response) => {
+    // GET Method to fetch book details from the backend
+    axios.get<Book>(`http://localhost:3004/book/books/${bookId}`).then((response) => {
       setBook(response.data);
     });
-  }, [id]);
+  }, [bookId]);
 
   if (!book) {
     return <div>Caricamento in corso...</div>;
   }
 
   return (
-    <div>
+    <div className="p-8">
       <h1 className="text-3xl font-bold mb-4">{book.title}</h1>
       <p className="mb-4">
         <span className="font-bold">Autore:</span> {book.author}
@@ -36,8 +35,10 @@ const BookDetail: React.FC = () => {
       <p className="mb-4">
         <span className="font-bold">ISBN:</span> {book.isbn}
       </p>
-      <p>{book.plot}</p>
-      <p className="mt-4">
+      <p className="mb-4">
+        <span className="font-bold">Trama:</span> {book.plot}
+      </p>
+      <p>
         <span className="font-bold">Numero di letture:</span> {book.numReads}
       </p>
     </div>
