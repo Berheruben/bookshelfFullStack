@@ -7,15 +7,54 @@ Il Frontend si compone solamente di tre schermate:
 L'applicazione è stata sviluppata utilizzando le seguenti tecnologie e stack:
 
 # Stack Tecnologico
-Frontend:
-React: Libreria JavaScript per la creazione di interfacce utente interattive.
-React Router: Gestione delle rotte e navigazione all'interno dell'applicazione React.
-Axios: Libreria per effettuare chiamate API verso il backend.
+# Frontend:
+React (con TypeScript)
+React Router Dom
+Axios (per le chiamate API)
 
-Backend:
-Node.js: Runtime JavaScript lato server.
-Express: Framework per la creazione di server web in Node.js.
-Sequelize: ORM (Object-Relational Mapping) per interagire con il database MySQL.
-MySQL: Database relazionale per la memorizzazione dei dati dell'applicazione.
-Docker: Strumento per la creazione, distribuzione e gestione di container.
+# Backend:
+Node.js (con TypeScript)
+Express.js
+MySQL (con Sequelize ORM)
 
+# Containerization:
+Docker
+Docker Compose
+
+# Chiamate API disponibili
+Le chiamate API sono prefissate con i seguenti router:
+
+/book: Contiene le chiamate API relative alla gestione dei libri.
+/user: Contiene le chiamate API relative alla gestione degli utenti.
+
+# Chiamate API relative ai Libri
+GET /book: Restituisce l'elenco di tutti i libri presenti nella collezione.
+GET /book/:id: Restituisce i dettagli di un libro specificato dall'ID.
+POST /book: Aggiunge un nuovo libro alla collezione.
+PUT /book/:id: Aggiorna i dettagli di un libro specificato dall'ID.
+DELETE /book/:id: Rimuove un libro specificato dall'ID.
+# Chiamate API relative agli Utenti
+GET /user: Restituisce l'elenco di tutti gli utenti registrati.
+GET /user/:id: Restituisce i dettagli di un utente specificato dall'ID.
+POST /user: Registra un nuovo utente.
+PUT /user/:id: Aggiorna i dettagli di un utente specificato dall'ID.
+DELETE /user/:id: Rimuove un utente specificato dall'ID.
+
+# Istruzioni per l'avvio del progetto
+Clonare questo repository sul proprio computer utilizzando il comando git clone.
+
+Assicurarsi di avere Docker installato sul proprio sistema.
+
+Creare un file .env nella cartella backend contenente le seguenti variabili d'ambiente:
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=PassWord123-
+DB_NAME=bookshelf
+DB_PORT=3306
+NODE_DOCKER_PORT=8081
+MYSQLDB_LOCAL_PORT=3308
+NODE_LOCAL_PORT=8081
+
+Nella radice del progetto, eseguire il comando docker-compose up per avviare il backend, il frontend e il database MySQL in container separati.
+Una volta che i container sono avviati, l'applicazione sarà accessibile all'indirizzo http://localhost:8081
