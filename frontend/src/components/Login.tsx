@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     // Fetch the list of users from the backend API
     const fetchUsers = async () => {
       try {
-        const response = await axios.get<User[]>('http://localhost:3001/user/users');
+        const response = await axios.get<User[]>('http://localhost:3004/user/users');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -33,12 +33,10 @@ const Login: React.FC = () => {
     if (selectedUser) {
       // Redirect to the list of books page on successful "login"
       navigate(`/books/${selectedUser.id}`);
-     
     } else {
       alert('Invalid user. Please select a valid user.');
     }
   };
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-red-100">
@@ -64,7 +62,8 @@ const Login: React.FC = () => {
           </div>
           <div>
             <button
-              type="submit"
+              type="button" // Change the button type to "button" instead of "submit"
+              onClick={handleSubmit(onSubmit)}
               className="bg-blue-500 text-white px-4 py-2 rounded-md"
             >
               Login

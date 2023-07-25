@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import sequelize from './db/db'; 
-import Book from './models/bookModel'; // Assuming you have properly exported the models
+import Book from './models/bookModel'; 
 import User from './models/userModel';
 
 import bookRouter from './routers/bookRouters';
@@ -13,7 +13,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost:5174',
 }));
 
 app.use(bodyParser.json());
@@ -25,15 +25,13 @@ app.use('/book', bookRouter);
 app.use('/user', userRouter);
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 // Connect to the database and create tables
 async function connectToDatabase() {
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
-
-    // Define associations between models (assuming you have defined the associations in the models)
 
     // Un utente può avere molti libri associati (uno a molti)
     User.hasMany(Book, { foreignKey: 'userId' });

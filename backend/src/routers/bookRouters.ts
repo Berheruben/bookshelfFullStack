@@ -14,7 +14,7 @@ router.delete('/deletebook/:id', bookController.deleteBook);
 router.put('/books/:id/mark-read', bookController.markBookAsRead);
 router.get('/books/author/:author', bookController.getBooksByAuthor);
 router.put('/books/:id/plot', bookController.addPlotToBook);
-router.get('/users/:userId/books', bookController.getBooksByUser);
+router.get('/:userId/books', bookController.getBooksByUser);
 
 // Nuove rotte per il prestito e la restituzione del libro
 router.post('/books/:id/take', bookController.takeBook);

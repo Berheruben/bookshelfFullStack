@@ -1,44 +1,48 @@
-// src/components/BookList.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
 
 interface Book {
   id: number;
   title: string;
   author: string;
   isbn: string;
-  plot: string;
-  numReads: number;
 }
 
 const BookList: React.FC = () => {
-  const [books, setBooks] = useState<Book[]>([]);
   const location = useLocation();
-  const userId = new URLSearchParams(location.search).get('userId');
+  const [books, setBooks] = useState<Book[]>([]);
+  const searchParams = new URLSearchParams(location.search);
+  const user = searchParams.get('user');
+
   useEffect(() => {
-    if (userId) {
-      axios.get(`http://localhost:3001/book/books/user/${userId}`).then((response) => {
+    if (user) {
+      // Fetch the books for the selected user from the backend
+      axios.get(`http://localhost:3004/book/${user}/books`).then((response) => {
         setBooks(response.data);
+      }).catch((error) => {
+        console.error('Error fetching books:', error);
       });
     }
-  }, [userId]);
+  }, [user]);
 
   return (
-   
-    <div>
-      <h1 className="text-3xl font-bold mb-4">Lista dei libri</h1>
-      <ul className="list-disc pl-8">
-        {books.map((book) => (
-          <li key={book.id}>
-            <Link to={`/books/${book.id}`} className="text-blue-500 hover:underline">
-              {book.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">Book List</h1>
+      {books.length === 0 ? (
+        <p>Nessun libro disponibile per questo utente.</p>
+      ) : (
+        <ul>
+          {books.map((book) => (
+            <li key={book.id} className="mb-2">
+              <Link to={`/books/${user}/${book.id}`} className="text-blue-500 hover:underline">
+                {book.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
- 
   );
 };
 
