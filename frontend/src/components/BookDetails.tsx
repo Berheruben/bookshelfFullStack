@@ -17,7 +17,7 @@ const BookDetail: React.FC = () => {
   const [book, setBook] = useState<Book | null>(null);
 
   useEffect(() => {
-    // Effettua una richiesta GET al backend per ottenere i dettagli del libro
+    // GET Methon to the backend to get book details
     axios.get<Book>(`http://localhost:3004/book/books/${id}`).then((response) => {
       setBook(response.data);
     });
