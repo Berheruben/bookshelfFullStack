@@ -30,24 +30,32 @@ Le chiamate API sono prefissate con i seguenti router:
 # Chiamate API relative ai Libri
 GET: /book 
 - Restituisce l'elenco di tutti i libri presenti nella collezione.
+
 GET: /book/:id 
-  Restituisce i dettagli di un libro specificato dall'ID.
+- Restituisce i dettagli di un libro specificato dall'ID.
+
 POST: /book 
 - Aggiunge un nuovo libro alla collezione.
+
 PUT: /book/:id 
 - Aggiorna i dettagli di un libro specificato dall'ID.
+
 DELETE: /book/:id 
 - Rimuove un libro specificato dall'ID.
 
 # Chiamate API relative agli Utenti
 GET: /user 
 - Restituisce l'elenco di tutti gli utenti registrati.
+
 GET: /user/:id 
 - Restituisce i dettagli di un utente specificato dall'ID.
+
 POST: /user 
 - Registra un nuovo utente.
+
 PUT: /user/:id 
 - Aggiorna i dettagli di un utente specificato dall'ID.
+
 DELETE: /user/:id 
 - Rimuove un utente specificato dall'ID.
 
