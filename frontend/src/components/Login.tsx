@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     // Fetch the list of users from the backend API
     const fetchUsers = async () => {
       try {
-        const response = await axios.get<User[]>('http://localhost:3004/user/users');
+        const response = await axios.get<User[]>('http://localhost:8081/user/users');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);

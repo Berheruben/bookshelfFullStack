@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/book', bookRouter);
 app.use('/user', userRouter);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.NODE_DOCKER_PORT || 3000;
 
 // Connect to the database and create tables
 async function connectToDatabase() {
