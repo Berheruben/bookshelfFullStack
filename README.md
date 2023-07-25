@@ -31,8 +31,7 @@ Le chiamate API sono prefissate con i seguenti router:
 GET: /book 
 - Restituisce l'elenco di tutti i libri presenti nella collezione.
 GET: /book/:id 
-
-- Restituisce i dettagli di un libro specificato dall'ID.
+  Restituisce i dettagli di un libro specificato dall'ID.
 POST: /book 
 - Aggiunge un nuovo libro alla collezione.
 PUT: /book/:id 
